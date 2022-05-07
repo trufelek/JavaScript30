@@ -14,11 +14,11 @@
       font-size: 20px;
       font-weight: 200;
     }
-    
+
     body {
       margin: 0;
     }
-    
+
     *, *:before, *:after {
       box-sizing: inherit;
     }
@@ -26,12 +26,18 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
       background: #6B0F9C;
       box-shadow: inset 0 0 0 5px rgba(255,255,255,0.1);
       color: white;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
       align-items: center;
       /* Safari transitionend event.propertyName === flex */
@@ -56,6 +62,24 @@
       margin: 0;
       width: 100%;
       transition: transform 0.5s;
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .panel > *:first-child {
+      transform: translateY(-100%);
+    }
+
+    .panel > *:last-child {
+      transform: translateY(100%);
+    }
+
+    .panel.open-active > *:first-child,
+    .panel.open-active > *:last-child
+     {
+      transform: translateY(0);
     }
 
     .panel p {
@@ -64,12 +88,13 @@
       text-shadow: 0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);
       font-size: 2em;
     }
-    
+
     .panel p:nth-child(2) {
       font-size: 4em;
     }
 
     .panel.open {
+      flex: 5;
       font-size: 40px;
     }
 
@@ -105,7 +130,20 @@
   </div>
 
   <script>
+  const panels = document.querySelectorAll('.panel')
 
+  function toggleOpen() {
+    this.classList.toggle('open')
+  }
+
+  function toggleActive(e) {
+    if (e.propertyName.includes('flex')) {
+      this.classList.toggle('open-active')
+    }
+  }
+
+  panels.forEach(panel => panel.addEventListener('click', toggleOpen))
+  panels.forEach(panel => panel.addEventListener('transitionend', toggleActive))
   </script>
 
 

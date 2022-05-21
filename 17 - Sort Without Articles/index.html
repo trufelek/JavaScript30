@@ -26,12 +26,12 @@
       padding: 0;
       box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.05);
     }
-    
+
     #bands li {
       border-bottom: 1px solid #efefef;
       padding: 20px;
     }
-    
+
     #bands li:last-child {
       border-bottom: 0;
     }
@@ -46,9 +46,25 @@
   <ul id="bands"></ul>
 
 <script>
-const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+  const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
 
+  function sortBandNames(a, b) {
+    const nameA = stripArticles(a)
+    const nameB = stripArticles(b)
+    return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+  }
 
+  function stripArticles(name) {
+    return name.replace(/^(a |the |an )/i, '').trim()
+  }
+
+  function populateList(elements) {
+    const list = document.querySelector('#bands')
+    list.innerHTML = elements.map(element => `<li>${element}</li>`).join('')
+  }
+
+  const sortedBandNames = bands.sort(sortBandNames)
+  populateList(sortedBandNames)
 </script>
 
 </body>
